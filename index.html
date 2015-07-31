@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Dynamic DropDown Box State and City By ID  using Angular.js">
+        <meta name="author" content="Piyush">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script> 
+    </head>
+    <body>
+        <h1>Welcome to Sample of Dynamic DropDown Box State and City By ID  using Angular.js</h1>
+        <div ng-app="selectBoxApp" ng-controller="selectBoxCtl">
+            <div>
+                <span>States: </span>
+                <select id="state" ng-disabled="!states" ng-model="selectedstate" ng-options="state.name for state in states track by state.id">
+                    <option value=''>Select</option></select>
+            </div>
+            <div>
+                <span>City: </span>
+                    <select id="city" ng-disabled="!selectedstate.city || !selectedstate" ng-model="city">
+                    <option value=''>Select</option> 
+                    <option ng-repeat="city in selectedstate.city" value='{{city.id}}'>{{city.name}}</option></select>        
+            </div>
+        </div>
+        <script>
+            var app = angular.module('selectBoxApp', []);
+            app.controller('selectBoxCtl', function($scope, $http) {
+                return $http.get("server.php").then(function(response) {
+                    $scope.states = response.data;
+                });
+            });
+        </script>
+    </body>
+</html>
